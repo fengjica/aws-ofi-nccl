@@ -1032,12 +1032,12 @@ static ncclResult_t region_init_internal_p6(nccl_ofi_tuner_region_context_t *reg
 
 			nccl_ofi_tuner_point_t extended_ring_ll =
 				extend_region((nccl_ofi_tuner_point_t){74973184, 1024},
-							  (nccl_ofi_tuner_point_t){209190912, 2048},
-							  (nccl_ofi_tuner_point_t){TUNER_MAX_SIZE, TUNER_MAX_RANKS});
+						(nccl_ofi_tuner_point_t){213385216, 2048},
+						(nccl_ofi_tuner_point_t){TUNER_MAX_SIZE, TUNER_MAX_RANKS});
 			nccl_ofi_tuner_point_t extended_ring_ll128 =
 				extend_region((nccl_ofi_tuner_point_t){8321499136, 512},
-							  (nccl_ofi_tuner_point_t){32212254720, 2048},
-							  (nccl_ofi_tuner_point_t){TUNER_MAX_SIZE, TUNER_MAX_RANKS});
+						(nccl_ofi_tuner_point_t){32212254720, 2048},
+						(nccl_ofi_tuner_point_t){TUNER_MAX_SIZE, TUNER_MAX_RANKS});
 
 			const nccl_ofi_tuner_region_t regions[] = {
 				{.algorithm = NCCL_ALGO_RING,
@@ -1045,13 +1045,13 @@ static ncclResult_t region_init_internal_p6(nccl_ofi_tuner_region_context_t *reg
 					.num_vertices = 10,
 					.vertices = {
 						{0, 16},
-						{196608, 16},
-						{196608, 32},
-						{393216, 64},
-						{8912896, 128},
+						{786432, 16},
+						{1572864, 32},
+						{2621440, 64},
+						{4718592, 128},
 						{17301504, 256},
 						{74973184, 1024},
-						{209190912, 2048},
+						{213385216, 2048},
 						extended_ring_ll,
 						{0, TUNER_MAX_RANKS}}},
 				{.algorithm = NCCL_ALGO_RING,
@@ -1059,16 +1059,16 @@ static ncclResult_t region_init_internal_p6(nccl_ofi_tuner_region_context_t *reg
 					.num_vertices = 14,
 					.vertices = {
 						extended_ring_ll,
-						{209190912, 2048},
+						{213385216, 2048},
 						{74973184, 1024},
 						{17301504, 256},
-						{8912896, 128},
-						{393216, 64},
-						{196608, 32},
-						{196608, 16},
-						{234356736, 16},
-						{374341632, 32},
-						{829423616, 64},
+						{4718592, 128},
+						{2621440, 64},
+						{1572864, 32},
+						{786432, 16},
+						{198705152, 16},
+						{456130560, 32},
+						{871366656, 64},
 						{8321499136, 512},
 						{32212254720, 2048},
 						extended_ring_ll128}},
@@ -1079,11 +1079,10 @@ static ncclResult_t region_init_internal_p6(nccl_ofi_tuner_region_context_t *reg
 						extended_ring_ll128,
 						{32212254720, 2048},
 						{8321499136, 512},
-						{829423616, 64},
-						{374341632, 32},
-						{234356736, 16},
+						{871366656, 64},
+						{456130560, 32},
+						{198705152, 16},
 						{TUNER_MAX_SIZE, 16}}}};
-
 			ret = set_regions(region_ctx, collType, sizeof(regions) / sizeof(regions[0]), regions);
 			if (ret != ncclSuccess) {
 				goto exit;
@@ -1093,44 +1092,46 @@ static ncclResult_t region_init_internal_p6(nccl_ofi_tuner_region_context_t *reg
 			collType = ncclFuncReduceScatter;
 
 			nccl_ofi_tuner_point_t extended_ring_ll =
-				extend_region((nccl_ofi_tuner_point_t){78118912, 1024},
-							  (nccl_ofi_tuner_point_t){217579520, 2048},
-							  (nccl_ofi_tuner_point_t){TUNER_MAX_SIZE, TUNER_MAX_RANKS});
+				extend_region((nccl_ofi_tuner_point_t){73924608, 1024},
+						(nccl_ofi_tuner_point_t){209190912, 2048},
+						(nccl_ofi_tuner_point_t){TUNER_MAX_SIZE, TUNER_MAX_RANKS});
 			nccl_ofi_tuner_point_t extended_ring_ll128 =
 				extend_region((nccl_ofi_tuner_point_t){4294967296, 256},
-							  (nccl_ofi_tuner_point_t){8589934592, 512},
-							  (nccl_ofi_tuner_point_t){TUNER_MAX_SIZE, TUNER_MAX_RANKS});
+							(nccl_ofi_tuner_point_t){8589934592, 512},
+							(nccl_ofi_tuner_point_t){TUNER_MAX_SIZE, TUNER_MAX_RANKS});
 
 			const nccl_ofi_tuner_region_t regions[] = {
 				{.algorithm = NCCL_ALGO_RING,
 					.protocol = NCCL_PROTO_LL,
-					.num_vertices = 10,
+					.num_vertices = 11,
 					.vertices = {
 						{0, 16},
-						{393216, 16},
-						{196608, 32},
-						{393216, 64},
-						{1572864, 128},
+						{786432, 16},
+						{1572864, 32},
+						{2621440, 64},
+						{4718592, 128},
 						{17301504, 256},
-						{78118912, 1024},
-						{217579520, 2048},
+						{35127296, 512},
+						{73924608, 1024},
+						{209190912, 2048},
 						extended_ring_ll,
 						{0, TUNER_MAX_RANKS}}},
 				{.algorithm = NCCL_ALGO_RING,
 					.protocol = NCCL_PROTO_LL128,
-					.num_vertices = 14,
+					.num_vertices = 15,
 					.vertices = {
 						extended_ring_ll,
-						{217579520, 2048},
-						{78118912, 1024},
+						{209190912, 2048},
+						{73924608, 1024},
+						{35127296, 512},
 						{17301504, 256},
-						{1572864, 128},
-						{393216, 64},
-						{196608, 32},
-						{393216, 16},
-						{187170816, 16},
-						{472907776, 32},
-						{594542592, 64},
+						{4718592, 128},
+						{2621440, 64},
+						{1572864, 32},
+						{786432, 16},
+						{219676672, 16},
+						{508559360, 32},
+						{592445440, 64},
 						{4294967296, 256},
 						{8589934592, 512},
 						extended_ring_ll128}},
@@ -1140,11 +1141,10 @@ static ncclResult_t region_init_internal_p6(nccl_ofi_tuner_region_context_t *reg
 					.vertices = {
 						extended_ring_ll128,
 						{4294967296, 256},
-						{594542592, 64},
-						{472907776, 32},
-						{187170816, 16},
+						{592445440, 64},
+						{508559360, 32},
+						{219676672, 16},
 						{TUNER_MAX_SIZE, 16}}}};
-
 			ret = set_regions(region_ctx, collType, sizeof(regions) / sizeof(regions[0]), regions);
 			if (ret != ncclSuccess) {
 				goto exit;
