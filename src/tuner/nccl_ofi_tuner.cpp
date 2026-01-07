@@ -5,7 +5,9 @@
 #include "config.h"
 
 #include <cassert>
+#include <chrono>
 #include <errno.h>
+#include <iostream>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -154,7 +156,7 @@ static ncclResult_t nccl_ofi_tuner_get_coll_info(void *context,
 						 int numProto,
 						 int *nChannels)
 {
-	ncclResult_t ret;
+	ncclResult_t ret = ncclSuccess;
 
 	nccl_ofi_tuner_context_t *ctx = (nccl_ofi_tuner_context_t *)context;
 	if (ctx == NULL || ctx->get_coll_info_internal_v3 == NULL) {
@@ -162,7 +164,19 @@ static ncclResult_t nccl_ofi_tuner_get_coll_info(void *context,
 		return ncclSuccess;
 	}
 
-	ret = ctx->get_coll_info_internal_v3(ctx, collType, nBytes, numPipeOps, collCostTable, numAlgo, numProto, nChannels);
+	// Start timing
+	auto start_time = std::chrono::high_resolution_clock::now();
+
+	for (int i = 0; i < 1000; i++) {
+		ncclResult_t r = ctx->get_coll_info_internal_v3(ctx, collType, nBytes, numPipeOps, collCostTable, numAlgo, numProto, nChannels);
+		ret = (ncclResult_t)(ret | r);
+	}
+
+	// End timing and calculate duration
+	auto end_time = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+
+	std::cout << "[FJDEBUG] get_coll_info_internal_v3 loop (1000 iterations) on " << nBytes << "bytes took " << duration.count() << " microseconds\n";
 
 	return ret;
 }
